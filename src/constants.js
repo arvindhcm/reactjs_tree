@@ -9,31 +9,12 @@ export const DATA = [
 			},
 			{
 				id: '3',
-				label: 'McLaren',
-				children: [
-					{
-						id: '4',
-						label: 'spider 500',
-					},
-					{
-						id: '5',
-						label: 'spider600',
-					},
-				],
+				label: 'McLaren'
+				
 			},
 			{
 				id: '6',
-				label: 'Ferrari',
-				children: [
-					{
-						id: '7',
-						label: 'Roma',
-					},
-					{
-						id: '8',
-						label: 'Italia',
-					},
-				],
+				label: 'Ferrari'
 			}
 		],
 	},
@@ -43,31 +24,13 @@ export const DATA = [
 		children: [
 			{
 				id: '10',
-				label: 'Kawasaki',
-				children: [
-					{
-						id: '11',
-						label: 'ninja',
-					},
-					{
-						id: '12',
-						label: 'z900',
-					},
-				],
+				label: 'Kawasaki'
+				
 			},
 			{
 				id: '13',
-				label: 'Ducati',
-				children: [
-					{
-						id: '14',
-						label: 'panigale',
-					},
-					{
-						id: '15',
-						label: 'Scrambler',
-					},
-				],
+				label: 'Ducati'
+				
 			},
 		],
 	},

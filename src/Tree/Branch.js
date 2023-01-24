@@ -1,4 +1,4 @@
-import React, { useState,useEffect } from 'react';
+import React, { useState,useEffect,useRef } from 'react';
 
 import Node from './Node';
 
@@ -17,6 +17,32 @@ const Branch = ({ item, level }) => {
       },[]);
 
 	const hasChildren = item.children && item.children.length;
+
+    const dragItem = React.useRef(null)
+	const dragOverItem = React.useRef(null)
+
+	const handleReorder = () => {
+
+		let tempChildren = data.children;
+
+        let srcIndex = tempChildren.findIndex(x => x.id == dragItem.current);
+        let destIndex = tempChildren.findIndex(x => x.id == dragOverItem.current);
+
+		const draggedItemContent = tempChildren.splice(srcIndex, 1)[0]
+
+		tempChildren.splice(destIndex, 0, draggedItemContent)
+
+		dragItem.current = null
+		dragOverItem.current = null
+
+		setData(data=> {
+            
+            let tempData = {...data};
+            tempData.children = tempChildren
+            return tempData
+            
+        })
+	}
    
     const handleSelectBox = (e) => {
 
@@ -71,6 +97,18 @@ const Branch = ({ item, level }) => {
                             level={newLevel}
                             onToggle={toggleSelected}
                             handleSelectBox={handleSelectBox}
+                            
+                            onDragStart={(e) => {
+                                console.log("ondragenter",e.target.id); 
+                                dragItem.current = child.id
+                            }}
+                            onDragEnter={(e) => {
+                                console.log("ondragenter",e.target.id); 
+                                dragOverItem.current = child.id
+                            }}
+
+                            onDragEnd={handleReorder}
+                            onDragOver={(e) => e.preventDefault()}
                     />
                         
                     })}

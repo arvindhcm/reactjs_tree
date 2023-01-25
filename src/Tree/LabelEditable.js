@@ -1,38 +1,47 @@
 import React, { useState, useEffect, useRef,useContext } from 'react';
 import  { useCallback } from 'react';
-import  { DataContext } from "./Branch";
+import  { DataContext } from "./index";
 
 
 function LabelEditable(props) {
   const [isInputActive, setIsInputActive] = useState(false);
   const [inputValue, setInputValue] = useState(props.text);
 
-  const { data, setData } = useContext(DataContext);
+  const { rootData,setRootData  } = useContext(DataContext);
 
   const inputRef = useRef(null);
 
 
   const onDelete = (e) => {
-   
     
      setIsInputActive(false);
-
       let id  = props.itemid; 
-
-      setData(data=> {
+      
+      setRootData(data=> {
           
-          let tempData = {...data}
+          let tempData = [...data]
 
-          if(tempData.id==id){       
-                tempData = {}
-          }
-          else{
-              tempData.children.map((itm)=> {
-                  if(itm.id == id){
-                       tempData.children = tempData.children.filter((item) => item.id !== itm.id);
-                  }
-              })
-           }
+          let recursive = (tempData) => { 
+                tempData.children.map((itm)=> {
+                    
+                    if(itm.id == id){
+                        tempData.children = tempData.children.filter((item) => item.id !== itm.id);
+                    }
+                    else if(itm.children){
+                        recursive(itm);
+                    }
+                })              
+             }
+        
+            tempData =tempData.filter((item) => { return item.id !== id}); //if in root level 
+
+            tempData.map(elem => {
+
+                if(elem.children.length){
+                recursive(elem)
+                
+                }
+            })
 
           return tempData
           
@@ -49,23 +58,34 @@ function LabelEditable(props) {
         let newLabel = inputValue;
         setInputValue(newLabel);
 
-        setData(data=> {
+        setRootData(data=> {
             
-            let tempData = {...data}
+            let tempData = [...data]
 
-            if(tempData.id==id){  //select all children here if parent selected      
-                tempData.label = newLabel;
-            }
-            else{
+            let recursive = (tempData) => { 
                 tempData.children.map((itm)=> {
+                    if(itm.children){
+                        recursive(itm);
+                    }
                     if(itm.id == id){
                         itm.label = newLabel;
                     }
-                })
-              
-                // tempData.isChecked =  ! tempData.children.some((dat) => dat?.isChecked !== true)
-            }
+                })           
+             }
+        
 
+            tempData.map(elem => {
+
+                if(elem.id==id){  //select all children here if parent selected      
+                    elem.label = newLabel;
+                }
+                else if(elem.children.length){
+                
+                    recursive(elem);
+                    // tempData.isChecked =  ! tempData.children.some((dat) => dat?.isChecked !== true)
+                }
+
+            })
             return tempData
             
         } );

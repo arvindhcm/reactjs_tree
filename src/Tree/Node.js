@@ -19,7 +19,7 @@ const Node = ({ item, hasChildren, level, onToggle , handleSelectBox,onDragStart
 	return (
 		<div  id={item.id} className={`node level${level} `} style={{ paddingLeft: `${level * 16}px`}} draggable onDragStart ={onDragStart} onDragEnter={onDragEnter} onDragEnd={onDragEnd} onDragOver={onDragOver}>
 
-            {hasChildren && <FontAwesomeIcon icon={faAngleDown} onClick={onToggle} />}
+            {hasChildren? <FontAwesomeIcon icon={faAngleDown} onClick={onToggle} /> : null}
            
             <FontAwesomeIcon icon={faGrip}  />
 

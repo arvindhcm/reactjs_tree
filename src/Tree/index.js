@@ -39,8 +39,7 @@ const Tree = ({ data }) => {
 			  	}
 
 				return x
-			}).filter(item => item.children.length > 0)
-
+			}).filter(item => (item.label.toLowerCase().includes(newSearchTerm.toLowerCase()) || item.children.length > 0))
 			  return d
 		})
 

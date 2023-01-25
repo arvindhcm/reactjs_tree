@@ -1,5 +1,5 @@
 .App{
-  padding: 10rem;
+  padding: 3rem;
 }
 .tree{
   padding:2rem;
@@ -52,4 +52,8 @@
 
 input.searchField{
   margin-bottom: 1rem;
+  width: 15rem;
+  height: 1.5rem;
+  border: 2px solid #ccc;
+  border-radius: 3px;
 }

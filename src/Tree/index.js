@@ -10,55 +10,63 @@ const Tree = ({ data }) => {
 	let [searchTerm,setSearchTerm] = useState(null);
 	let [rootData,setRootData] = useState(data);
 
-	console.log("root tree rendering ")
+	// console.log("root tree rendering ")
 
 	// updateRootData = (data) =>{
 	// 	setRootData((prevData) => {
 	// 		return data
 	// 	})
 	// }
-
+	const filter = (array, name) => {
+		let result = [];
+		array.forEach(item => {
+		  if (item.label.toLowerCase().includes(name)) {
+			if (item.children) {
+			  result.push({ ...item });
+			} else {
+			  result.push({ id: item.id, label: item.label });
+			}
+		  }
+		  if (item.children) {
+			const children = filter(item.children, name);
+			if (children.length) {
+			  result.push({ ...item, children });
+			}
+		  }
+		});
+		return result;
+	  }
 	const onChange = (e) => {
 
-		let newSearchTerm = e.target.value
-		setSearchTerm(newSearchTerm);
-		console.log(newSearchTerm);
+		let newSearchTerm = (e.target.value);
+		if(!newSearchTerm){
+			setRootData(data)
+			return 
+		}
+		if(newSearchTerm.length < 3){
+			return
+		}
 
+
+		setSearchTerm(newSearchTerm);
+		console.log("newSearchterm",newSearchTerm);
+		
 		setRootData((prevData) =>{
+			
 			let temp = [...prevData];
 
-			if(!newSearchTerm){
-				return data
-			}
+			console.log("init temp for search filter",temp)
 
-			let filterChild = (tempData) => { 
-
-				return tempData.filter(child => {
-							if(child.children){
-								filterChild(child.children)
-							}
-							return (child.label.toLowerCase().includes(newSearchTerm.toLowerCase() || child.children))
-						})
-                              
-             }
-			 let recursive = (temp) => {
-
-				temp.map(item => {
-					
-					if(item.children){
-						filterChild(item.children)	
-					}
-					
-				  })
-			 }
-		
-				recursive(temp);
-				 
+			
+			let newtemp = filter(temp,newSearchTerm) 
+			console.log("searchtemp",newtemp)
 			
 			
 			//.filter(item => (item.label.toLowerCase().includes(newSearchTerm.toLowerCase()) || item.children.length > 0))
-			 
-			return temp
+			 if(!newtemp.length){
+				return data
+			 }
+			return newtemp
 		})
 
 	}
@@ -67,8 +75,8 @@ const Tree = ({ data }) => {
 		<DataContext.Provider value={{ rootData,setRootData }}>
 			<div>
 
-				<input className='searchField' onChange={onChange} type="text" placeholder="search" />
-				{rootData.map((item,idx) => <Branch key={item.id} item={item} level={0} />)}
+				<input className='searchField' onChange={onChange} type="text" placeholder="Search (Min 3 characters)" />
+				{rootData.map((item,idx) => <Branch key={idx} item={item} level={0} />)}
 			</div>
 		</DataContext.Provider>
 	);

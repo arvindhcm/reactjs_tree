@@ -139,11 +139,11 @@ const Branch = ({ item, level }) => {
 	const renderBranches = () => {
 		if (hasChildren) {
 			const newLevel = level + 2;
-            console.log("renderBranches")
+            // console.log("renderBranches")
 			return <div className={`collapsibleChild ${showChildren ? '' : 'hide'}`}>
                     {item.children.map((child,idx) => {
                         
-                        console.log(child.children)
+                        // console.log(child.children)
 
                         let elem;
 
@@ -166,7 +166,7 @@ const Branch = ({ item, level }) => {
                           handleSelectBox={handleSelectBox}
                       
                           onDragStart={(e) => {
-                              console.log("ondragenter",e.target.id); 
+                            //   console.log("ondragenter",e.target.id); 
                               dragItem.current = child.id
                           }}
                           onDragEnter={(e) => {
@@ -195,9 +195,9 @@ const Branch = ({ item, level }) => {
         });
 	};
 
-    console.log("branch render");
-    console.log("branch data" + JSON.stringify(data));  
-    console.log("branch item props" + JSON.stringify(item));
+    // console.log("branch render");
+    // console.log("branch data" + JSON.stringify(data));  
+    // console.log("branch item props" + JSON.stringify(item));
 
 	return (
         

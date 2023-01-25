@@ -1,6 +1,8 @@
 import React from 'react';
 import  { useState,useEffect } from 'react';
 
+import LabelEditable from './LabelEditable';
+
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 import { faAngleDown,faGrip } from '@fortawesome/free-solid-svg-icons'
@@ -22,7 +24,8 @@ const Node = ({ item, hasChildren, level, onToggle , handleSelectBox,onDragStart
             <FontAwesomeIcon icon={faGrip}  />
 
             <input   id={item.id} type='checkbox' value={item.label}  checked={item.isChecked}  onChange={handleSelectBox} />            
-            {item.label}
+            
+            <LabelEditable  itemid={item.id} text={item.label} />
 
 		</div>
 	);

@@ -1,6 +1,8 @@
-import React, { useState,useEffect,useRef } from 'react';
+import React, { useState,useEffect,useRef,createContext } from 'react';
 
 import Node from './Node';
+
+export const DataContext = createContext();
 
 const Branch = ({ item, level }) => {
 
@@ -8,7 +10,6 @@ const Branch = ({ item, level }) => {
 	const [showChildren, setShowChildren] = useState(true);
 
     const [data, setData] = useState(item);
-
   
     useEffect(() => {
         
@@ -97,7 +98,7 @@ const Branch = ({ item, level }) => {
                             level={newLevel}
                             onToggle={toggleSelected}
                             handleSelectBox={handleSelectBox}
-                            
+                         
                             onDragStart={(e) => {
                                 console.log("ondragenter",e.target.id); 
                                 dragItem.current = child.id
@@ -129,6 +130,8 @@ const Branch = ({ item, level }) => {
 	return (
         
 		<>
+            <DataContext.Provider value={{ data, setData }}>
+
 			<Node
 				item={data}
                 key = {data.id}
@@ -139,6 +142,7 @@ const Branch = ({ item, level }) => {
 			/>
 
 			{renderBranches()}
+            </DataContext.Provider>
 		</>
 	);
 };

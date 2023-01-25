@@ -21,3 +21,27 @@
   max-height: 0px;
  
 }
+
+.tree .editableBlock .active{
+  display: inline-block;
+}
+.hidden{
+  display: none;
+}
+
+.tree .editableBlock button[class^='btn-']{
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  margin-left: 0.5rem;
+  padding: 0.2rem 1rem 0.2rem 1rem;
+}
+
+.tree .editableBlock .btn-save:hover{
+  background-color: #48b2c7;
+  color: #fff;
+}
+.tree .editableBlock .btn-delete:hover{
+  background-color: #ff6b35;
+  color: #fff;
+}

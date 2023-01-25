@@ -12,9 +12,8 @@ const Branch = ({ item, level }) => {
     const [data, setData] = useState(item);
   
     useEffect(() => {
-        
-            setData(item);
             console.log(data);
+             setData(item);
       },[]);
 
 	const hasChildren = item.children && item.children.length;
@@ -88,9 +87,9 @@ const Branch = ({ item, level }) => {
 	const renderBranches = () => {
 		if (hasChildren) {
 			const newLevel = level + 1;
-
+            console.log("renderBranches")
 			return <div className={`collapsibleChild ${showChildren ? '' : 'hide'}`}>
-                    {data.children.map((child,idx) => {
+                    {item.children.map((child,idx) => {
                         return <Node
                             key = {child.id}
                             item={child}
@@ -126,6 +125,8 @@ const Branch = ({ item, level }) => {
 	};
 
     console.log("branch render");
+    console.log("branch data" + JSON.stringify(data));  
+    console.log("branch item props" + JSON.stringify(item));
 
 	return (
         

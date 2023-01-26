@@ -11,18 +11,7 @@ function LabelEditable(props) {
 
   const inputRef = useRef(null);
 
-  const removeObject = (array, id) => {
-    for (let i = 0; i < array.length; i++) {
-      if (array[i].id === id) {
-        array.splice(i, 1);
-        return array;
-      }
-      if (array[i].children) {
-        array[i].children = removeObject(array[i].children, id);
-      }
-    }
-    return array;
-  };
+
 
   const onDelete = (e) => {
     
@@ -32,7 +21,20 @@ function LabelEditable(props) {
       setRootData(data=> {
           
           let tempData = [...data]
-          
+         
+          const removeObject = (array, id) => {
+            for (let i = 0; i < array.length; i++) {
+              if (array[i].id === id) {
+                array.splice(i, 1);
+                return array;
+              }
+              if (array[i].children) {
+                array[i].children = removeObject(array[i].children, id);
+              }
+            }
+            return array;
+          };
+
           return removeObject(tempData,id)
           
       } );

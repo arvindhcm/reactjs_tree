@@ -11,6 +11,18 @@ function LabelEditable(props) {
 
   const inputRef = useRef(null);
 
+  const removeObject = (array, id) => {
+    for (let i = 0; i < array.length; i++) {
+      if (array[i].id === id) {
+        array.splice(i, 1);
+        return array;
+      }
+      if (array[i].children) {
+        array[i].children = removeObject(array[i].children, id);
+      }
+    }
+    return array;
+  };
 
   const onDelete = (e) => {
     
@@ -20,30 +32,8 @@ function LabelEditable(props) {
       setRootData(data=> {
           
           let tempData = [...data]
-
-          let recursive = (tempData) => { 
-                tempData.children.map((itm)=> {
-                    
-                    if(itm.id == id){
-                        tempData.children = tempData.children.filter((item) => item.id !== itm.id);
-                    }
-                    else if(itm.children){
-                        recursive(itm);
-                    }
-                })              
-             }
-        
-            tempData =tempData.filter((item) => { return item.id !== id}); //if in root level 
-
-            tempData.map(elem => {
-
-                if(elem.children.length){
-                recursive(elem)
-                
-                }
-            })
-
-          return tempData
+          
+          return removeObject(tempData,id)
           
       } );
 
@@ -62,31 +52,20 @@ function LabelEditable(props) {
             
             let tempData = [...data]
 
-            let recursive = (tempData) => { 
-                tempData.children.map((itm)=> {
-                    if(itm.children){
-                        recursive(itm);
-                    }
-                    if(itm.id == id){
-                        itm.label = newLabel;
-                    }
-                })           
-             }
+             const recursiveSetLabel = (array, id) => {
+                for (let i = 0; i < array.length; i++) {
+                  if (array[i].id === id) {
+                    array[i].label = newLabel;
+                    return array;
+                  }
+                  if (array[i].children) {
+                    array[i].children = recursiveSetLabel(array[i].children, id);
+                  }
+                }
+                return array;
+              };
         
-
-            tempData.map(elem => {
-
-                if(elem.id==id){  //select all children here if parent selected      
-                    elem.label = newLabel;
-                }
-                else if(elem.children.length){
-                
-                    recursive(elem);
-                    // tempData.isChecked =  ! tempData.children.some((dat) => dat?.isChecked !== true)
-                }
-
-            })
-            return tempData
+            return recursiveSetLabel(tempData,id);
             
         } );
 

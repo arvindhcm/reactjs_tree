@@ -1,4 +1,4 @@
-import React, { useState,useEffect,useRef,createContext ,useContext} from 'react';
+import React, { useState,useEffect ,useContext} from 'react';
 import Node from './Node';
 import  { DataContext } from "./index";
 
@@ -72,23 +72,22 @@ const Branch = ({ item, level }) => {
         setRootData(prevData=> {
             let tempData = [...prevData]
            
-            let recursiveCheckAllHelper = (tempData) => {
+            let recursiveSelectAllChild = (tempData) => {
                 tempData.children.map((itm)=> {
                     itm.isChecked = checked
                     if(itm.children){
-                        recursiveCheckAllHelper(itm)
+                        recursiveSelectAllChild(itm)
                     }
                     return
                 })
             }
 
             let selectParenthelper = ((node) =>{
+                node.isChecked = true
                 node.children.map((innerElem) => {
-                    // if(innerElem.id == id){
-                    //     innerElem.isChecked = checked;
-                    // }
+                    
                     if(!innerElem.isChecked){
-                        node.isChecked = false //setting branch label false if one of the child nodes is not selected.
+                        node.isChecked = false //setting branch ischecked false if one of the child nodes is not selected.
                     }
                     if(innerElem.children){
                         selectParenthelper(innerElem);
@@ -112,7 +111,7 @@ const Branch = ({ item, level }) => {
                     if(elem.id == id){  //select all children here if parent selected
                         elem.isChecked = checked;
                         if(elem.children){
-                            recursiveCheckAllHelper(elem);  //check all child nodes
+                            recursiveSelectAllChild(elem);  //check all child nodes
                         }
                     }
                     else if(elem.children){
@@ -121,33 +120,11 @@ const Branch = ({ item, level }) => {
                  }) 
             }
 
-            selectAllChild(tempData);
-
-
 
             selectParent(tempData); //select parent if all child nodes selected;
               
-               
-            
-            // else{
-            //     tempData.isChecked = true; //assuming its true  will become false if one of the child not checked
-            //     tempData.children.map((itm)=> {
+            selectAllChild(tempData);
 
-            //         if(itm.id == id){
-            //             itm.isChecked = checked
-            //             console.log(itm)
-            //         }
-            //         if(!itm.isChecked){
-            //             tempData.isChecked = false
-            //         }
-            //     })
-              
-
-            //     // tempData.isChecked =  ! tempData.children.some((dat) => dat?.isChecked !== true)
-            // }
-
-                // tempData.isChecked =  ! tempData.children.some((dat) => dat?.isChecked !== true)
-            
 
             return tempData
             

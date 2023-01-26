@@ -21,11 +21,8 @@ const Tree = ({ data }) => {
 		let result = [];
 		array.forEach(item => {
 		  if (item.label.toLowerCase().includes(name)) {
-			if (item.children) {
-			  result.push({ ...item });
-			} else {
-			  result.push({ id: item.id, label: item.label });
-			}
+			 // result.push({ ...item,children:[] });
+			 result.push({ ...item });
 		  }
 		  if (item.children) {
 			const children = filter(item.children, name);

@@ -44,6 +44,26 @@ const Branch = ({ item, level }) => {
             
         })
 	}
+
+    const filterById = (array, id) => {
+		let result = [];
+		array.forEach(item => {
+		  if (item.id.includes(id)) {
+			if (item.children) {
+			  result.push({ ...item });
+			} else {
+			  result.push({ id: item.id, label: item.label });
+			}
+		  }
+		  if (item.children) {
+			const children = filterById(item.children, id);
+			if (children.length) {
+			  result.push({ ...item, children });
+			}
+		  }
+		});
+		return result;
+	  }
    
     const handleSelectBox = (e) => {
 

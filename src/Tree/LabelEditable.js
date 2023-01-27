@@ -1,5 +1,4 @@
-import React, { useState, useEffect, useRef,useContext } from 'react';
-import  { useCallback } from 'react';
+import React, { useState, useEffect, useRef,useContext,useCallback } from 'react';
 import  { DataContext } from "./index";
 
 
@@ -21,27 +20,14 @@ function LabelEditable(props) {
       setRootData(data=> {
           
           let tempData = [...data]
-         
-          const removeObject = (array, id) => {
-            for (let i = 0; i < array.length; i++) {
-              if (array[i].id === id) {
-                array.splice(i, 1);
-                return array;
-              }
-              if (array[i].children) {
-                array[i].children = removeObject(array[i].children, id);
-              }
-            }
-            return array;
-          };
 
-          return removeObject(tempData,id)
+          return props.removeObject(tempData,id)
           
       } );
 
 };
 
-  const onSave = (e) => {
+  const onSave =(e) => {
    
     
       setIsInputActive(false);
@@ -84,7 +70,7 @@ function LabelEditable(props) {
     (event) => {
       setInputValue((event.target.value));
     },
-    [setInputValue]
+    []
   );
 
   const handleLabelClick = useCallback(() => setIsInputActive(true), [setIsInputActive]);

@@ -4,7 +4,7 @@ import  { DataContext } from "./index";
 
 
 
-const Branch = ({ item, level }) => {
+const Branch = ({ item, level,removeObject }) => {
 
 	const [selected, setSelected] = useState(true);
 	const [showChildren, setShowChildren] = useState(true);
@@ -147,7 +147,7 @@ const Branch = ({ item, level }) => {
                         if (child.hasOwnProperty('children')) {
                           elem = <>
                                    
-                                 <Branch key={idx+child.id} item={child} level={level} />
+                                 <Branch key={idx+child.id} item={child} level={level}  removeObject={removeObject} />
                                  
                              </>
                         
@@ -161,6 +161,7 @@ const Branch = ({ item, level }) => {
                           level={newLevel}
                           onToggle={toggleSelected}
                           handleSelectBox={handleSelectBox}
+                        removeObject={removeObject}
                       
                           onDragStart={(e) => {
                             //   console.log("ondragenter",e.target.id); 
@@ -207,6 +208,7 @@ const Branch = ({ item, level }) => {
 				level={level}
 				onToggle={toggleSelected}
                 handleSelectBox={handleSelectBox}
+                removeObject={removeObject}
 			/>
 
 			    {renderBranches()}

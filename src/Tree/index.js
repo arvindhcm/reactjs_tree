@@ -1,5 +1,5 @@
 import React from 'react';
-import { useState,createContext } from 'react';
+import { useState,createContext,useCallback } from 'react';
 
 import Branch from './Branch';
 export const DataContext = createContext();
@@ -17,6 +17,21 @@ const Tree = ({ data }) => {
 	// 		return data
 	// 	})
 	// }
+
+	const removeObject = useCallback((array, id) => {
+		for (let i = 0; i < array.length; i++) {
+		  if (array[i].id === id) {
+			array.splice(i, 1);
+			return array;
+		  }
+		  if (array[i].children) {
+			array[i].children = removeObject(array[i].children, id);
+		  }
+		}
+		return array;
+	  },[]);
+
+
 	const filter = (array, name) => {
 		let result = [];
 		array.forEach(item => {
@@ -33,7 +48,7 @@ const Tree = ({ data }) => {
 		});
 		return result;
 	  }
-	const onChange = (e) => {
+	const onChange = useCallback((e) => {
 
 		let newSearchTerm = (e.target.value);
 		if(!newSearchTerm){
@@ -65,15 +80,15 @@ const Tree = ({ data }) => {
 			 }
 			return newtemp
 		})
-
-	}
+		
+	}, [rootData]);
 
 	return (
 		<DataContext.Provider value={{ rootData,setRootData }}>
 			<div>
 
 				<input className='searchField' onChange={onChange} type="text" placeholder="Search (Min 3 characters)" />
-				{rootData.map((item,idx) => <Branch key={idx} item={item} level={0} />)}
+				{rootData.map((item,idx) => <Branch key={idx} item={item} level={0} removeObject={removeObject}/>)}
 			</div>
 		</DataContext.Provider>
 	);

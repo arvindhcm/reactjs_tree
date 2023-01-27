@@ -7,7 +7,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 import { faAngleDown,faGrip } from '@fortawesome/free-solid-svg-icons'
 
-const Node = ({ item, hasChildren, level, onToggle , handleSelectBox,onDragStart,onDragEnter ,onDragEnd,onDragOver}) => {
+const Node = ({ item, hasChildren, level, onToggle , handleSelectBox,onDragStart,onDragEnter ,onDragEnd,onDragOver, removeObject}) => {
 
     useEffect(() => {
         console.log("node render");
@@ -25,7 +25,7 @@ const Node = ({ item, hasChildren, level, onToggle , handleSelectBox,onDragStart
 
             <input   id={item.id} type='checkbox' value={item.label}  checked={item.isChecked}  onChange={handleSelectBox} />            
             
-            <LabelEditable  itemid={item.id} text={item.label} />
+            <LabelEditable  itemid={item.id} text={item.label} removeObject={removeObject} />
 
 		</div>
 	);

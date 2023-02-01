@@ -58,7 +58,21 @@ export const DATA = [
 			},
 			{
 				id: '2-5',
-				label: 'KTM'
+				label: 'KTM',
+				children:[
+					{
+						id: '2-5-1',
+						label: 'child1'
+					},
+					{
+						id: '2-5-2',
+						label: 'child2'
+					},
+					{
+						id: '2-5-3',
+						label: 'child3'
+					}
+				]
 				
 			}
 			

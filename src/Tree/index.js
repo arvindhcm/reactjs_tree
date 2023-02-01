@@ -18,6 +18,35 @@ const Tree = ({ data }) => {
 	// 	})
 	// }
 
+	const onMultipleDelete = (e) => {
+    
+		let result = [];
+		 setRootData((prevData) => {
+
+			let temp = [...prevData];
+
+			let helper = (array) => {
+				array.forEach(item=> {
+					if(item.isChecked){
+						result.push(item.id)
+					}
+					if(item.children){
+						(helper(item.children));
+					}
+				})
+				
+			}
+			helper(temp);
+
+			result.forEach((elemID)=> {
+				temp = removeObject(temp,elemID);
+			})		
+
+			 return temp
+		 })
+   };
+
+
 	const removeObject = useCallback((array, id) => {
 		for (let i = 0; i < array.length; i++) {
 		  if (array[i].id === id) {
@@ -61,17 +90,17 @@ const Tree = ({ data }) => {
 
 
 		setSearchTerm(newSearchTerm);
-		console.log("newSearchterm",newSearchTerm);
+		// console.log("newSearchterm",newSearchTerm);
 		
 		setRootData((prevData) =>{
 			
 			let temp = [...prevData];
 
-			console.log("init temp for search filter",temp)
+			// console.log("init temp for search filter",temp)
 
 			
 			let newtemp = filter(temp,newSearchTerm) 
-			console.log("searchtemp",newtemp)
+			// console.log("searchtemp",newtemp)
 			
 			
 			//.filter(item => (item.label.toLowerCase().includes(newSearchTerm.toLowerCase()) || item.children.length > 0))
@@ -85,6 +114,7 @@ const Tree = ({ data }) => {
 
 	return (
 		<DataContext.Provider value={{ rootData,setRootData }}>
+			<button onClick={onMultipleDelete}> Delete Selected </button>
 			<div>
 
 				<input className='searchField' onChange={onChange} type="text" placeholder="Search (Min 3 characters)" />

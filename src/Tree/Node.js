@@ -10,7 +10,7 @@ import { faAngleDown,faGrip } from '@fortawesome/free-solid-svg-icons'
 const Node = ({ item, hasChildren, level, onToggle , handleSelectBox,onDragStart,onDragEnter ,onDragEnd,onDragOver, removeObject}) => {
 
     useEffect(() => {
-        console.log("node render");
+      //   console.log("node render");
   
       }, []);
 
